@@ -61,7 +61,7 @@ public class MainFrame extends JFrame implements SurveyListener, CustomerInfoLis
         newSurvey = new JButton("New Survey");
         submit = new JButton("Submit");
         reset = new JButton("Make PDF");
-        taken = new JLabel("Surveys Taken: " + (surveys+1) + "/4");
+        taken = new JLabel("Surveys Taken: " + surveys + "/4");
         s0 = new String[8];
         s1 = new String[8];
         s2 = new String[8];
@@ -74,11 +74,9 @@ public class MainFrame extends JFrame implements SurveyListener, CustomerInfoLis
                 survey = new Survey();
                 survey.setBounds(20, 125, 700, 200);
                 add(survey);
-                surveys++;
                 if(surveys == 3) {
                     newSurvey.setEnabled(false);
                 }
-                taken = new JLabel("Surveys Taken: " + (surveys+1) + "/4");
                 taken.setBounds(555, 100, 180, 30);
                 add(taken);
                 validate();
@@ -91,6 +89,8 @@ public class MainFrame extends JFrame implements SurveyListener, CustomerInfoLis
                 getSurvey();
                 getCustomer();
                 setInfo();
+                if(surveys < 5)surveys++;
+                taken = new JLabel("Surveys Taken: " + surveys + "/4");
                 note.setStringListener(new StringListener() {
                     public void textEmitted(String text) {
                         notes = text;
@@ -106,35 +106,19 @@ public class MainFrame extends JFrame implements SurveyListener, CustomerInfoLis
                 remove(survey);
                 remove(note);
                 remove(taken);
+                resetVars();
                 customerInfo = new CustomerInfo();
                 survey = new Survey();
                 note = new Notes();
-                tower = "";
-                tech = "";
-                snrT = "";
-                snrC = "";
-                rssiT = "";
-                rssiC = "";
-                down = "";
-                up = "";
-                name = "";
-                addr = "";
-                date = "";
-                notes = "";
+                taken = new JLabel("Surveys Taken: " + surveys + "/4");
                 customerInfo.setBounds(20, 10, 700, 100);
                 add(customerInfo);
                 survey.setBounds(20, 125, 700, 200);
                 add(survey);
                 note.setBounds(20, 330, 700, 150);
                 add(note);
-                surveys = 0;
-                taken = new JLabel("Surveys Taken: " + (surveys+1) + "/4");
                 taken.setBounds(555, 100, 180, 30);
                 add(taken);
-                s0 = new String[8];
-                s1 = new String[8];
-                s2 = new String[8];
-                s3 = new String[8];
                 newSurvey.setEnabled(true);
                 validate();
                 repaint();
@@ -189,23 +173,23 @@ public class MainFrame extends JFrame implements SurveyListener, CustomerInfoLis
             s1[6] = down;
             s1[7] = up;
         } else if(surveys == 2) {
-            if(tower != null)s2[0] = tower;
-            if(tech != null)s2[1] = tech;
-            if(snrT != null)s2[2] = snrT;
-            if(snrC != null)s2[3] = snrC;
-            if(rssiT != null)s2[4] = rssiT;
-            if(rssiC != null)s2[5] = rssiC;
-            if(down != null)s2[6] = down;
-            if(up != null)s2[7] = up;
+            s2[0] = tower;
+            s2[1] = tech;
+            s2[2] = snrT;
+            s2[3] = snrC;
+            s2[4] = rssiT;
+            s2[5] = rssiC;
+            s2[6] = down;
+            s2[7] = up;
         } else if(surveys == 3) {
-            if(tower != null)s3[0] = tower;
-            if(tech != null)s3[1] = tech;
-            if(snrT != null)s3[2] = snrT;
-            if(snrC != null)s3[3] = snrC;
-            if(rssiT != null)s3[4] = rssiT;
-            if(rssiC != null)s3[5] = rssiC;
-            if(down != null)s3[6] = down;
-            if(up != null)s3[7] = up;
+            s3[0] = tower;
+            s3[1] = tech;
+            s3[2] = snrT;
+            s3[3] = snrC;
+            s3[4] = rssiT;
+            s3[5] = rssiC;
+            s3[6] = down;
+            s3[7] = up;
         }
     }
 
@@ -248,218 +232,19 @@ public class MainFrame extends JFrame implements SurveyListener, CustomerInfoLis
             cs.newLineAtOffset(-300, 100);
             cs.showText("Date: " + date);
             if(surveys == 0) {
-                cs.newLineAtOffset(0, -150);
-                cs.setFont(PDType1Font.TIMES_BOLD, 12);
-                cs.showText("Survey #1");
-                cs.setFont(PDType1Font.TIMES_ROMAN, 10);
-                cs.newLineAtOffset(0, -20);
-                cs.showText("Tower Tested: " + s0[0]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Technology Used: " + s0[1]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("SNR @ Tower: " + s0[2]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("SNR @ Client: " + s0[3]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("RSSI @ Tower: " + s0[4]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("RSSI @ Client: " + s0[5]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("Average Download Speed (5 Tests): " + s0[6]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Average Upload Speed (5 Tests): " + s0[7]);
+                setSurveyOne();
             }else if(surveys == 1) {
-                // first survey
-                cs.newLineAtOffset(0, -150);
-                cs.setFont(PDType1Font.TIMES_BOLD, 12);
-                cs.showText("Survey #1");
-                cs.setFont(PDType1Font.TIMES_ROMAN, 10);
-                cs.newLineAtOffset(0, -20);
-                cs.showText("Tower Tested: " + s0[0]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Technology Used: " + s0[1]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("SNR @ Tower: " + s0[2]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("SNR @ Client: " + s0[3]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("RSSI @ Tower: " + s0[4]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("RSSI @ Client: " + s0[5]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("Average Download Speed (5 Tests): " + s0[6]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Average Upload Speed (5 Tests): " + s0[7]);
-                // survey 2
-                cs.newLineAtOffset(-200, -30);
-                cs.setFont(PDType1Font.TIMES_BOLD, 12);
-                cs.showText("Survey #2");
-                cs.setFont(PDType1Font.TIMES_ROMAN, 10);
-                cs.newLineAtOffset(0, -20);
-                cs.showText("Tower Tested: " + s1[0]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Technology Used: " + s1[1]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("SNR @ Tower: " + s1[2]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("SNR @ Client: " + s1[3]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("RSSI @ Tower: " + s1[4]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("RSSI @ Client: " + s1[5]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("Average Download Speed (5 Tests): " + s1[6]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Average Upload Speed (5 Tests): " + s1[7]);
+                setSurveyOne();
+                setSurveyTwo();
             } else if(surveys == 2) {
-                // first survey
-                cs.newLineAtOffset(0, -150);
-                cs.setFont(PDType1Font.TIMES_BOLD, 12);
-                cs.showText("Survey #1");
-                cs.setFont(PDType1Font.TIMES_ROMAN, 10);
-                cs.newLineAtOffset(0, -20);
-                cs.showText("Tower Tested: " + s0[0]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Technology Used: " + s0[1]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("SNR @ Tower: " + s0[2]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("SNR @ Client: " + s0[3]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("RSSI @ Tower: " + s0[4]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("RSSI @ Client: " + s0[5]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("Average Download Speed (5 Tests): " + s0[6]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Average Upload Speed (5 Tests): " + s0[7]);
-                // survey 2
-                cs.newLineAtOffset(-200, -30);
-                cs.setFont(PDType1Font.TIMES_BOLD, 12);
-                cs.showText("Survey #2");
-                cs.setFont(PDType1Font.TIMES_ROMAN, 10);
-                cs.newLineAtOffset(0, -20);
-                cs.showText("Tower Tested: " + s1[0]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Technology Used: " + s1[1]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("SNR @ Tower: " + s1[2]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("SNR @ Client: " + s1[3]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("RSSI @ Tower: " + s1[4]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("RSSI @ Client: " + s1[5]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("Average Download Speed (5 Tests): " + s1[6]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Average Upload Speed (5 Tests): " + s1[7]);
-                // survey 3
-                cs.newLineAtOffset(-200, -30);
-                cs.setFont(PDType1Font.TIMES_BOLD, 12);
-                cs.showText("Survey #3");
-                cs.setFont(PDType1Font.TIMES_ROMAN, 10);
-                cs.newLineAtOffset(0, -20);
-                cs.showText("Tower Tested: " + s2[0]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Technology Used: " + s2[1]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("SNR @ Tower: " + s2[2]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("SNR @ Client: " + s2[3]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("RSSI @ Tower: " + s2[4]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("RSSI @ Client: " + s2[5]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("Average Download Speed (5 Tests): " + s2[6]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Average Upload Speed (5 Tests): " + s2[7]);
+                setSurveyOne();
+                setSurveyTwo();
+                setSurveyThree();
             } else if(surveys == 3) {
-                // first survey
-                cs.newLineAtOffset(0, -150);
-                cs.setFont(PDType1Font.TIMES_BOLD, 12);
-                cs.showText("Survey #1");
-                cs.setFont(PDType1Font.TIMES_ROMAN, 10);
-                cs.newLineAtOffset(0, -20);
-                cs.showText("Tower Tested: " + s0[0]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Technology Used: " + s0[1]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("SNR @ Tower: " + s0[2]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("SNR @ Client: " + s0[3]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("RSSI @ Tower: " + s0[4]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("RSSI @ Client: " + s0[5]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("Average Download Speed (5 Tests): " + s0[6]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Average Upload Speed (5 Tests): " + s0[7]);
-                // survey 2
-                cs.newLineAtOffset(-200, -30);
-                cs.setFont(PDType1Font.TIMES_BOLD, 12);
-                cs.showText("Survey #2");
-                cs.setFont(PDType1Font.TIMES_ROMAN, 10);
-                cs.newLineAtOffset(0, -20);
-                cs.showText("Tower Tested: " + s1[0]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Technology Used: " + s1[1]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("SNR @ Tower: " + s1[2]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("SNR @ Client: " + s1[3]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("RSSI @ Tower: " + s1[4]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("RSSI @ Client: " + s1[5]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("Average Download Speed (5 Tests): " + s1[6]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Average Upload Speed (5 Tests): " + s1[7]);
-                // survey 3
-                cs.newLineAtOffset(-200, -30);
-                cs.setFont(PDType1Font.TIMES_BOLD, 12);
-                cs.showText("Survey #3");
-                cs.setFont(PDType1Font.TIMES_ROMAN, 10);
-                cs.newLineAtOffset(0, -20);
-                cs.showText("Tower Tested: " + s2[0]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Technology Used: " + s2[1]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("SNR @ Tower: " + s2[2]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("SNR @ Client: " + s2[3]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("RSSI @ Tower: " + s2[4]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("RSSI @ Client: " + s2[5]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("Average Download Speed (5 Tests): " + s2[6]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Average Upload Speed (5 Tests): " + s2[7]);
-                // survey 4
-                cs.newLineAtOffset(-200, -30);
-                cs.setFont(PDType1Font.TIMES_BOLD, 12);
-                cs.showText("Survey #4");
-                cs.setFont(PDType1Font.TIMES_ROMAN, 10);
-                cs.newLineAtOffset(0, -20);
-                cs.showText("Tower Tested: " + s3[0]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Technology Used: " + s3[1]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("SNR @ Tower: " + s3[2]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("SNR @ Client: " + s3[3]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("RSSI @ Tower: " + s3[4]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("RSSI @ Client: " + s3[5]);
-                cs.newLineAtOffset(-200, -20);
-                cs.showText("Average Download Speed (5 Tests): " + s3[6]);
-                cs.newLineAtOffset(200, 0);
-                cs.showText("Average Upload Speed (5 Tests): " + s3[7]);
+                setSurveyOne();
+                setSurveyTwo();
+                setSurveyThree();
+                setSurveyFour();
             }
             cs.newLineAtOffset(-200, -30);
             cs.setFont(PDType1Font.TIMES_BOLD, 12);
@@ -470,6 +255,7 @@ public class MainFrame extends JFrame implements SurveyListener, CustomerInfoLis
             int end = 0;
             
             String nt = notes.replaceAll("\\n+", " ");
+            nt = nt.replaceAll("\\t+", " ");
 
             for ( int i : possibleWrapPoints(nt) ) {
                 float width = font.getStringWidth(nt.substring(start,i)) / 2500 * fontSize;
@@ -501,5 +287,111 @@ public class MainFrame extends JFrame implements SurveyListener, CustomerInfoLis
             ret[i] = ret[i-1] + split[i].length();
         return ret;
     }
-
+    private void resetVars() { 
+        tower = "";
+        tech = "";
+        snrT = "";
+        snrC = "";
+        rssiT = "";
+        rssiC = "";
+        down = "";
+        up = "";
+        name = "";
+        addr = "";
+        date = "";
+        notes = "";
+        s0 = new String[8];
+        s1 = new String[8];
+        s2 = new String[8];
+        s3 = new String[8];
+        surveys = 0;
+    }
+    private void setSurveyOne() {
+        cs.newLineAtOffset(0, -150);
+        cs.setFont(PDType1Font.TIMES_BOLD, 12);
+        cs.showText("Survey #1");
+        cs.setFont(PDType1Font.TIMES_ROMAN, 10);
+        cs.newLineAtOffset(0, -20);
+        cs.showText("Tower Tested: " + s0[0]);
+        cs.newLineAtOffset(200, 0);
+        cs.showText("Technology Used: " + s0[1]);
+        cs.newLineAtOffset(-200, -20);
+        cs.showText("SNR @ Tower: " + s0[2]);
+        cs.newLineAtOffset(200, 0);
+        cs.showText("SNR @ Client: " + s0[3]);
+        cs.newLineAtOffset(-200, -20);
+        cs.showText("RSSI @ Tower: " + s0[4]);
+        cs.newLineAtOffset(200, 0);
+        cs.showText("RSSI @ Client: " + s0[5]);
+        cs.newLineAtOffset(-200, -20);
+        cs.showText("Average Download Speed (5 Tests): " + s0[6]);
+        cs.newLineAtOffset(200, 0);
+        cs.showText("Average Upload Speed (5 Tests): " + s0[7]);
+    }
+    private void setSurveyTwo() {
+        cs.newLineAtOffset(-200, -30);
+        cs.setFont(PDType1Font.TIMES_BOLD, 12);
+        cs.showText("Survey #2");
+        cs.setFont(PDType1Font.TIMES_ROMAN, 10);
+        cs.newLineAtOffset(0, -20);
+        cs.showText("Tower Tested: " + s1[0]);
+        cs.newLineAtOffset(200, 0);
+        cs.showText("Technology Used: " + s1[1]);
+        cs.newLineAtOffset(-200, -20);
+        cs.showText("SNR @ Tower: " + s1[2]);
+        cs.newLineAtOffset(200, 0);
+        cs.showText("SNR @ Client: " + s1[3]);
+        cs.newLineAtOffset(-200, -20);
+        cs.showText("RSSI @ Tower: " + s1[4]);
+        cs.newLineAtOffset(200, 0);
+        cs.showText("RSSI @ Client: " + s1[5]);
+        cs.newLineAtOffset(-200, -20);
+        cs.showText("Average Download Speed (5 Tests): " + s1[6]);
+        cs.newLineAtOffset(200, 0);
+        cs.showText("Average Upload Speed (5 Tests): " + s1[7]);
+    }
+    private void setSurveyThree() {
+        cs.newLineAtOffset(-200, -30);
+        cs.setFont(PDType1Font.TIMES_BOLD, 12);
+        cs.showText("Survey #3");
+        cs.setFont(PDType1Font.TIMES_ROMAN, 10);
+        cs.newLineAtOffset(0, -20);
+        cs.showText("Tower Tested: " + s2[0]);
+        cs.newLineAtOffset(200, 0);
+        cs.showText("Technology Used: " + s2[1]);
+        cs.newLineAtOffset(-200, -20);
+        cs.showText("SNR @ Tower: " + s2[2]);
+        cs.newLineAtOffset(200, 0);
+        cs.showText("SNR @ Client: " + s2[3]);
+        cs.newLineAtOffset(-200, -20);
+        cs.showText("RSSI @ Tower: " + s2[4]);
+        cs.newLineAtOffset(200, 0);
+        cs.showText("RSSI @ Client: " + s2[5]);
+        cs.newLineAtOffset(-200, -20);
+        cs.showText("Average Download Speed (5 Tests): " + s2[6]);
+        cs.newLineAtOffset(200, 0);
+        cs.showText("Average Upload Speed (5 Tests): " + s2[7]);
+    }
+    private void setSurveyFour() {
+        cs.newLineAtOffset(-200, -30);
+        cs.setFont(PDType1Font.TIMES_BOLD, 12);
+        cs.showText("Survey #4");
+        cs.setFont(PDType1Font.TIMES_ROMAN, 10);
+        cs.newLineAtOffset(0, -20);
+        cs.showText("Tower Tested: " + s3[0]);
+        cs.newLineAtOffset(200, 0);
+        cs.showText("Technology Used: " + s3[1]);
+        cs.newLineAtOffset(-200, -20);
+        cs.showText("SNR @ Tower: " + s3[2]);
+        cs.newLineAtOffset(200, 0);
+        cs.showText("SNR @ Client: " + s3[3]);
+        cs.newLineAtOffset(-200, -20);
+        cs.showText("RSSI @ Tower: " + s3[4]);
+        cs.newLineAtOffset(200, 0);
+        cs.showText("RSSI @ Client: " + s3[5]);
+        cs.newLineAtOffset(-200, -20);
+        cs.showText("Average Download Speed (5 Tests): " + s3[6]);
+        cs.newLineAtOffset(200, 0);
+        cs.showText("Average Upload Speed (5 Tests): " + s3[7]);
+    }
 }
