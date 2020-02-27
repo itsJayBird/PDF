@@ -34,28 +34,34 @@ public class CustomerInfo extends JPanel {
     }
     
     private void setDate() {
+        // set day box
         DefaultComboBoxModel dd = new DefaultComboBoxModel();
+        dd.addElement("dd");
         for(int i = 0; i <= 30; i++) {
             String d = Integer.toString(i+1);
             dd.addElement(d);
         }
         day.setModel(dd);
-        day.setPrototypeDisplayValue("dd");
+        day.setPrototypeDisplayValue("xx");
+        // set month box
         DefaultComboBoxModel mm = new DefaultComboBoxModel();
+        mm.addElement("mm");
         for(int i = 0; i < 12; i++) {
             String m = Integer.toString(i+1);
             mm.addElement(m);
         }
         month.setModel(mm);
-        month.setPrototypeDisplayValue("mm");
+        month.setPrototypeDisplayValue("xx");
+        // set year box
         DefaultComboBoxModel yyyy = new DefaultComboBoxModel();
-        for(int i = 0; i < 80; i++) {
+        yyyy.addElement("yyyy");
+        for(int i = 0; i < 30; i++) {
             int yr = 2020 + i;
             String yy = Integer.toString(yr);
             yyyy.addElement(yy);
         }
         year.setModel(yyyy);
-        year.setPrototypeDisplayValue("yyyy");
+        year.setPrototypeDisplayValue("xxxx");
     }
     private void setFields() {
         
@@ -80,43 +86,6 @@ public class CustomerInfo extends JPanel {
         add(month);
         year.setBounds(380, 60, 70, 20);
         add(year);
-       
-//        setLayout(new GridBagLayout());
-//        GridBagConstraints gc = new GridBagConstraints();
-//        gc.weightx = 1;
-//        gc.weighty = 1;
-//        
-//        // first row //
-//        gc.gridx = 0;
-//        gc.gridy = 0;
-//        gc.anchor = GridBagConstraints.LINE_END;
-//        add(new JLabel("Customer Name: "), gc);
-//        gc.gridx = 1;
-//        gc.anchor = GridBagConstraints.LINE_START;
-//        add(custName, gc);
-//        
-//        gc.gridx = 2;
-//        gc.anchor = GridBagConstraints.LINE_END;
-//        add(new JLabel("Customer Address: "), gc);
-//        gc.gridx = 3;
-//        gc.anchor = GridBagConstraints.LINE_START;
-//        add(custAddr, gc);
-//        
-//        // next row //
-//        gc.gridx = 0;
-//        gc.gridy++;
-//        gc.anchor = GridBagConstraints.LINE_END;
-//        add(new JLabel("Date of Survey: "), gc);
-//        gc.gridx = 1;
-//        gc.anchor = GridBagConstraints.LINE_START;
-//        add(day, gc);
-//        gc.gridx = 2;
-//        add(month, gc);
-//        gc.gridx = 3;
-//        gc.weightx = 3;
-//        add(year, gc);
-        
-       
     }
     public void getCustomerInfo() {
         String name = custName.getText();
